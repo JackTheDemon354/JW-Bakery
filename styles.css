@@ -1,37 +1,26 @@
-/* General body and font */
+/* General styles for JW Bakery site */
 body {
   font-family: Calibri, 'Raleway';
   background-color: #f4f4f4;
   margin: 0;
   padding: 0;
-  color: #2e7d32;
 }
 
-/* Header styling */
 header {
   background-color: #2e7d32;
   color: white;
   padding: 20px 0;
   text-align: center;
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 15px; /* space between logo and text */
+  justify-content: center;
+  gap: 15px;
 }
 
-/* Logo in header */
 header img {
-  height: 80px;
-  display: block;
+  height: 50px;
 }
 
-/* Header text container */
-header h1, header p {
-  margin: 0;
-  line-height: 1.2;
-}
-
-/* Navigation bar */
 nav {
   background-color: #388e3c;
 }
@@ -40,66 +29,28 @@ nav a {
   color: white !important;
   margin: 0 10px;
   font-weight: 500;
-  text-decoration: none;
 }
 
-/* Main content */
 main {
-  padding: 40px 20px;
   max-width: 800px;
-  margin: auto;
-}
-
-/* Headings */
-h1, h2 {
+  margin: 30px auto;
+  padding: 40px 20px;
+  background-color: white;
   color: #2e7d32;
+  border-radius: 8px;
 }
 
-/* Hero section */
-.hero {
-  background: url('https://source.unsplash.com/1600x600/?forest,mountain') center/cover no-repeat;
-  color: white;
-  text-align: center;
-  padding: 100px 20px;
+/* Specific style for About page main section */
+.about-main {
+  background-color: #2e7d32; /* dark green */
+  color: white;              /* white text */
 }
 
-.hero h1 {
-  font-size: 3rem;
-  font-weight: bold;
-}
-
-.hero p {
-  font-size: 1.3rem;
-  margin-top: 10px;
-}
-
-/* Footer styling */
+/* Footer */
 footer {
   background-color: #2e7d32;
   color: white;
   text-align: center;
   padding: 15px;
   margin-top: 50px;
-}
-
-/* Form styling */
-form label {
-  font-weight: 500;
-  margin-top: 10px;
-  display: block;
-  text-align: left;
-}
-
-/* Button style */
-.btn-success {
-  background-color: #388e3c;
-  border: none;
-  font-weight: 600;
-  padding: 10px 20px;
-}
-
-.btn-success:hover {
-  background-color: #2e7d32;
-  color: white;
-  transition: 0.3s ease;
 }
