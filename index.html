@@ -94,10 +94,11 @@
         <li>Natural wild yeast</li>
       </ul>
       <p style="font-weight: bold; font-size: 1.5rem; margin-top: 10px;">Price: $6.50 per loaf</p>
-      <button id="addToCartBtn" class="btn btn-success">Add to Cart</button>
+      <button id="addSourdoughBtn" class="btn btn-success">Add to Cart</button>
     </div>
   </section>
-   <section class="hero">
+
+  <section class="hero">
     <div class="product-box">
       <h2>Lemonade</h2>
       <p><em>Made with lots of Lemons, water, Sugar, and no colours/flavours. Not too sour, nor too sweet.</em></p>
@@ -108,7 +109,7 @@
         <li>Natural flavour and colour</li>
       </ul>
       <p style="font-weight: bold; font-size: 1.5rem; margin-top: 10px;">Price: $4.30 per bottle</p>
-      <button id="addToCartBtn" class="btn btn-success">Add to Cart</button>
+      <button id="addLemonadeBtn" class="btn btn-success">Add to Cart</button>
     </div>
   </section>
 
@@ -118,38 +119,34 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    document.getElementById('addToCartBtn').addEventListener('click', () => {
-      let cart = JSON.parse(localStorage.getItem('jwBakeryCart')) || [];
-      const sourdough = {
-        id: 'sourdough',
-        name: 'Sourdough',
-        price: 6.50,
-        quantity: 1
-      };
-          document.getElementById('addToCartBtn').addEventListener('click', () => {
-      let cart = JSON.parse(localStorage.getItem('jwBakeryCart')) || [];
-      const sourdough = {
-        id: 'lemonade',
-        name: 'Lemonade',
-        price: 4.30,
-        quantity: 1
-      };
-      const index = cart.findIndex(item => item.id === sourdough.id);
-      if(index > -1){
-        cart[index].quantity += 1;
-      } else {
-        cart.push(sourdough);
-        const index = cart.findIndex(item => item.id === lemonade.id);
-      if(index > -1){
-        cart[index].quantity += 1;
-      } else {
-        cart.push(lemonade);
-      }
-      localStorage.setItem('jwBakeryCart', JSON.stringify(cart));
-      alert('Added Sourdough  x1 to cart!');
-         }
-      localStorage.setItem('jwBakeryCart', JSON.stringify(cart));
-      alert('Added Lemonade x1 to cart!');
+    document.addEventListener("DOMContentLoaded", () => {
+      // Add Sourdough
+      document.getElementById('addSourdoughBtn').addEventListener('click', () => {
+        let cart = JSON.parse(localStorage.getItem('jwBakeryCart')) || [];
+        const item = { id: 'sourdough', name: 'Sourdough', price: 6.50, quantity: 1 };
+        const index = cart.findIndex(i => i.id === item.id);
+        if (index > -1) {
+          cart[index].quantity += 1;
+        } else {
+          cart.push(item);
+        }
+        localStorage.setItem('jwBakeryCart', JSON.stringify(cart));
+        alert('Added Sourdough x1 to cart!');
+      });
+
+      // Add Lemonade
+      document.getElementById('addLemonadeBtn').addEventListener('click', () => {
+        let cart = JSON.parse(localStorage.getItem('jwBakeryCart')) || [];
+        const item = { id: 'lemonade', name: 'Lemonade', price: 4.30, quantity: 1 };
+        const index = cart.findIndex(i => i.id === item.id);
+        if (index > -1) {
+          cart[index].quantity += 1;
+        } else {
+          cart.push(item);
+        }
+        localStorage.setItem('jwBakeryCart', JSON.stringify(cart));
+        alert('Added Lemonade x1 to cart!');
+      });
     });
   </script>
 </body>
