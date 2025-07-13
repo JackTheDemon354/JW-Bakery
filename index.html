@@ -97,6 +97,20 @@
       <button id="addToCartBtn" class="btn btn-success">Add to Cart</button>
     </div>
   </section>
+   <section class="hero">
+    <div class="product-box">
+      <h2>Lemonade</h2>
+      <p><em>Made with lots of Lemons, water, Sugar, and no colours/flavours. Not too sour, nor too sweet.</em></p>
+      <ul>
+        <li>Organic Lemons</li>
+        <li>Water</li>
+        <li>Sugar</li>
+        <li>Natural flavour and colour</li>
+      </ul>
+      <p style="font-weight: bold; font-size: 1.5rem; margin-top: 10px;">Price: $4.30 per bottle</p>
+      <button id="addToCartBtn" class="btn btn-success">Add to Cart</button>
+    </div>
+  </section>
 
   <footer>
     <p>&copy; 2025 JW Bakery. All rights reserved to Jack & William.</p>
@@ -112,14 +126,30 @@
         price: 6.50,
         quantity: 1
       };
+          document.getElementById('addToCartBtn').addEventListener('click', () => {
+      let cart = JSON.parse(localStorage.getItem('jwBakeryCart')) || [];
+      const sourdough = {
+        id: 'lemonade',
+        name: 'Lemonade',
+        price: 4.30,
+        quantity: 1
+      };
       const index = cart.findIndex(item => item.id === sourdough.id);
       if(index > -1){
         cart[index].quantity += 1;
       } else {
         cart.push(sourdough);
+        const index = cart.findIndex(item => item.id === lemonade.id);
+      if(index > -1){
+        cart[index].quantity += 1;
+      } else {
+        cart.push(lemonade);
       }
       localStorage.setItem('jwBakeryCart', JSON.stringify(cart));
-      alert('Added Sourdough to cart!');
+      alert('Added Sourdough  x1 to cart!');
+         }
+      localStorage.setItem('jwBakeryCart', JSON.stringify(cart));
+      alert('Added Lemonade x1 to cart!');
     });
   </script>
 </body>
