@@ -2,37 +2,169 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>JW Bakery - Cart</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="styles.css" rel="stylesheet" />
+  <style>
+    body { font-family: Calibri, 'Raleway'; background-color: #f4f4f4; }
+    header {
+      background-color: #2e7d32;
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+    header img {
+      height: 60px;
+      user-select: none;
+    }
+    nav { background-color: #388e3c; }
+    nav a { color: white !important; margin: 0 10px; font-weight: 500; }
+    nav .nav-link.active {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+    .cart-container {
+      margin: 20px auto;
+      max-width: 600px;
+      padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 10px;
+    }
+    .cart-item span {
+      font-weight: 500;
+    }
+    .remove-btn {
+      margin-left: 15px;
+    }
+    footer {
+      background-color: #2e7d32;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 50px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Your Cart</h1>
-  <!-- Your cart items listing here -->
+  <header>
+    <img src="JW Bakery_logo.png" alt="JW Bakery Logo" />
+    <div>
+      <h1>JW Bakery</h1>
+      <p>Your cart is ready!</p>
+    </div>
+  </header>
 
-  <a id="buyNowBtn" href="#" class="btn btn-primary">Buy Now</a>
+  <nav class="navbar navbar-expand-md navbar-dark px-4 sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand d-md-none" href="#">Menu</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarMenu">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+          <li class="nav-item"><a class="nav-link" href="/index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="/sales.html">Sales</a></li>
+          <li class="nav-item"><a class="nav-link" href="/contact.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link active" href="/cart.html">Cart</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="cart-container">
+    <h2>Your Cart</h2>
+    <div id="cartItems"></div>
+    <a id="buyNowBtn" href="#" class="btn btn-success mt-3">Buy Now</a>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 JW Bakery. All rights reserved to Jack & William.</p>
+  </footer>
 
   <script>
-    // Wait for DOM to load
     document.addEventListener('DOMContentLoaded', () => {
-      const cart = JSON.parse(localStorage.getItem('jwBakeryCart')) || [];
-
-      // Check presence of items
-      const hasSourdough = cart.some(item => item.id === 'sourdough' && item.quantity > 0);
-      const hasLemonade = cart.some(item => item.id === 'lemonade' && item.quantity > 0);
-
+      let cart = JSON.parse(localStorage.getItem('jwBakeryCart')) || [];
+      const cartItemsContainer = document.getElementById('cartItems');
       const buyNowBtn = document.getElementById('buyNowBtn');
 
-      if (hasSourdough && hasLemonade) {
-        buyNowBtn.href = 'https://buy.stripe.com/9B614n0gF4Ej33AfmAgjC00';
-      } else if (hasSourdough) {
-        buyNowBtn.href = 'https://buy.stripe.com/3cIeVd8Nb9YD9rYdesgjC01';
-      } else if (hasLemonade) {
-        buyNowBtn.href = 'https://buy.stripe.com/fZueVd4wV3Af1Zwa2ggjC02';
-      } else {
-        buyNowBtn.href = '#'; // or disable button if empty cart
-        buyNowBtn.textContent = 'Cart is empty';
-        buyNowBtn.classList.add('disabled');
+      function renderCart() {
+        cartItemsContainer.innerHTML = '';
+        if (cart.length === 0) {
+          cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
+          buyNowBtn.classList.add('disabled');
+          buyNowBtn.href = '#';
+          buyNowBtn.textContent = 'Cart is empty';
+          return;
+        }
+
+        cart.forEach(item => {
+          const itemTotal = item.price * item.quantity;
+          const itemElement = document.createElement('div');
+          itemElement.classList.add('cart-item');
+          itemElement.innerHTML = `
+            <span>${item.name} (x${item.quantity})</span>
+            <div>
+              <span>$${itemTotal.toFixed(2)}</span>
+              <button class="btn btn-danger btn-sm remove-btn" data-id="${item.id}">❌</button>
+            </div>
+          `;
+          cartItemsContainer.appendChild(itemElement);
+        });
+
+        // Attach remove listeners
+        document.querySelectorAll('.remove-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const idToRemove = e.target.getAttribute('data-id');
+            cart = cart.filter(item => item.id !== idToRemove);
+            localStorage.setItem('jwBakeryCart', JSON.stringify(cart));
+            renderCart();
+            updateBuyNowBtn();
+          });
+        });
       }
+
+      function updateBuyNowBtn() {
+        const hasSourdough = cart.some(item => item.id === 'sourdough');
+        const hasLemonade = cart.some(item => item.id === 'lemonade');
+
+        if (cart.length === 0) {
+          buyNowBtn.classList.add('disabled');
+          buyNowBtn.href = '#';
+          buyNowBtn.textContent = 'Cart is empty';
+          return;
+        } else {
+          buyNowBtn.classList.remove('disabled');
+          buyNowBtn.textContent = 'Buy Now';
+        }
+
+        if (hasSourdough && hasLemonade) {
+          buyNowBtn.href = 'https://buy.stripe.com/9B614n0gF4Ej33AfmAgjC00';
+        } else if (hasSourdough) {
+          buyNowBtn.href = 'https://buy.stripe.com/3cIeVd8Nb9YD9rYdesgjC01';
+        } else if (hasLemonade) {
+          buyNowBtn.href = 'https://buy.stripe.com/fZueVd4wV3Af1Zwa2ggjC02';
+        }
+      }
+
+      renderCart();
+      updateBuyNowBtn();
     });
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
