@@ -1,4 +1,4 @@
-/* General styles for JW Bakery site */
+/* General styles for JW Bakery */
 body {
   font-family: Calibri, 'Raleway';
   background-color: #f4f4f4;
@@ -31,22 +31,15 @@ nav a {
   font-weight: 500;
 }
 
-main {
+.page-main {
+  background-color: #2e7d32; /* dark green */
+  color: white;              /* white text */
   max-width: 800px;
   margin: 30px auto;
   padding: 40px 20px;
-  background-color: white;
-  color: #2e7d32;
   border-radius: 8px;
 }
 
-/* Specific style for About page main section */
-.about-main {
-  background-color: #2e7d32; /* dark green */
-  color: white;              /* white text */
-}
-
-/* Footer */
 footer {
   background-color: #2e7d32;
   color: white;
