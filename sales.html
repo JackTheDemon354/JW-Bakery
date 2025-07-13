@@ -7,27 +7,31 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="styles.css" rel="stylesheet" />
   <style>
-    main.page-main {
+    /* Green text box below navbar */
+    .product-box {
       background-color: #2e7d32;
       color: white;
-      padding: 40px 20px;
+      padding: 30px;
+      margin: 20px auto;
       max-width: 700px;
-      margin: 40px auto;
-      border-radius: 10px;
+      border-radius: 8px;
       text-align: center;
-      font-size: 1.4rem;
     }
-    header {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      background-color: #2e7d32;
-      padding: 20px 0;
-      color: white;
-      justify-content: center;
+    .product-box h2 {
+      font-family: Calibri, 'Raleway', sans-serif;
+      font-weight: bold;
+      font-size: 2.5rem;
+      margin-bottom: 15px;
     }
-    header img {
-      height: 60px;
+    .product-box p {
+      font-family: Calibri, 'Raleway', sans-serif;
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+    #addToCartBtn {
+      font-size: 1.3rem;
+      padding: 10px 20px;
+      font-weight: 600;
     }
   </style>
 </head>
@@ -52,14 +56,20 @@
           <li class="nav-item"><a class="nav-link" href="about.html">About.</a></li>
           <li class="nav-item"><a class="nav-link active" href="sales.html">Sales!</a></li>
           <li class="nav-item"><a class="nav-link" href="contact.html">Contact.</a></li>
+          <li class="nav-item"><a class="nav-link" href="cart.html">Cart!</a></li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <main class="page-main">
-    <h2>Today's Deal</h2>
-    <p id="saleMessage">Checking sale status...</p>
+  <main class="container my-5">
+    <div class="product-box">
+      <h2>Sourdough</h2>
+      <p>Our famous Sourdough is crusty on the outside, soft and chewy on the inside. Made with natural wild yeast and slow fermented for the best flavour.</p>
+      <p><strong>Ingredients:</strong> Flour, Water, Salt, Natural Wild Yeast</p>
+      <p><strong>Price:</strong> $5.00 per loaf</p>
+      <button id="addToCartBtn" class="btn btn-success">Add to Cart - $5.00</button>
+    </div>
   </main>
 
   <footer>
@@ -67,21 +77,32 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
   <script>
-    // JavaScript to show message based on the current day
-    const saleMessage = document.getElementById('saleMessage');
-    const today = new Date().getDay();
-    // getDay() returns: 0=Sun, 1=Mon, 2=Tue, ..., 6=Sat
+    const addToCartBtn = document.getElementById('addToCartBtn');
 
-    if (today === 4 || today === 5) {
-      // Thursday (4) or Friday (5)
-      saleMessage.textContent = "You can preorder now for Saturday and Sunday!";
-    } else if (today === 6 || today === 0) {
-      // Saturday (6) or Sunday (0)
-      saleMessage.textContent = "Sales are OPEN today! Buy your sourdough now!";
-    } else {
-      saleMessage.textContent = "Sorry, no deals here today.";
-    }
+    addToCartBtn.addEventListener('click', () => {
+      // Get cart from localStorage or empty array
+      const cart = JSON.parse(localStorage.getItem('jwBakeryCart')) || [];
+
+      // Product info
+      const product = {
+        name: 'Sourdough',
+        price: 5.00,
+        quantity: 1
+      };
+
+      // Check if product already exists in cart
+      const existingProductIndex = cart.findIndex(item => item.name === product.name);
+      if (existingProductIndex !== -1) {
+        cart[existingProductIndex].quantity++;
+      } else {
+        cart.push(product);
+      }
+
+      localStorage.setItem('jwBakeryCart', JSON.stringify(cart));
+      alert('Sourdough added to cart!');
+    });
   </script>
 </body>
 </html>
